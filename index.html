@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>APIDoc</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body ng-app="apidoc">
+    <header class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">APIDoc</a>
+            </div>
+        </div>
+    </header>
+    <div ng-controller="ApidocController">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <ad-form></ad-form>
+                </div>
+                <div class="col-lg-6">
+                    <ad-result></ad-result>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="row">
+            <div class="container">
+                <div class="col-lg-6">
+                    Made by <a href="https://twitter.com/aliskhakov">Albert Iskhakov</a> using <a href="https://angularjs.org">Angular</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script type="text/javascript" src="js/lib/angular.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>

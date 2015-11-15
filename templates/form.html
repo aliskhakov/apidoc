@@ -1,0 +1,69 @@
+<form name="userForm" novalidate>
+    <h4>Title</h4>
+    <div class="form-group">
+        <input type="text" class="form-control" ng-model="data.title">
+    </div>
+    <h4>Methods</h4>
+    <div ng-repeat="method in data.methods">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Method #{{$index + 1}}
+                <button type="button" class="btn btn-danger btn-xs" ng-click="data.delMethod($index)">
+                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Remove
+                </button>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" class="form-control" placeholder="User list" ng-model="method.title">
+                </div>
+                <div class="form-group">
+                    <label>URL</label>
+                    <input type="text" class="form-control" placeholder="/api/user" ng-model="method.url">
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <input type="text" class="form-control" placeholder="GET" ng-model="method.type">
+                </div>
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Value</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="param in method.params">
+                            <td>
+                                <input type="text" class="form-control" placeholder="page" ng-model="param.name">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" placeholder="1" ng-model="param.value">
+                            </td>
+                            <td style="vertical-align: middle;">
+                                <button type="button" class="btn btn-danger btn-xs"
+                                        ng-click="data.delParam($parent.$index, $index)">
+                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Remove
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-success btn-xs" ng-click="data.addParam($index)">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label>Response</label>
+                    <textarea class="form-control" rows="5" ng-model="method.response"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-success btn-xs" ng-click="data.addMethod()">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+    </button>
+</form>
