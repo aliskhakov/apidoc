@@ -12,15 +12,13 @@ app.directive('adForm', function(){
 });
 
 app.directive('adResult', ['MdService', function(mdService){
-    function link(scope, element){
-        scope.$watch(function() {
-            element.html(mdService.makeMD(scope.data));
-        });
-    }
-
     return {
         restrict: "E",
-        link: link
+        link: function (scope, element){
+            scope.$watch(function() {
+                element.html(mdService.makeMD(scope.data));
+            });
+        }
     }
 }]);
 
