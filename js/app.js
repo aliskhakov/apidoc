@@ -14,17 +14,7 @@ app.directive('adForm', function(){
 app.directive('adResult', ['MdService', function(mdService){
     function link(scope, element){
         scope.$watch(function() {
-            var md = [mdService.addTitle(scope.data.title, '=')];
-
-            angular.forEach(scope.data.methods, function(method, key) {
-                md.push(mdService.addMethod(method));
-            });
-
-            element.html(
-                "<h4>Markdown</h4><pre><code>" +
-                md.filter(mdService.joinFilter).join("\n\n\n") +
-                "</code></pre>"
-            );
+            element.html(mdService.makeMD(scope.data));
         });
     }
 
@@ -75,6 +65,18 @@ app.service('DataService', [function(){
 }]);
 
 app.service('MdService', function() {
+    function makeMD(data) {
+        var md = [addTitle(data.title, '=')];
+
+        angular.forEach(data.methods, function (method, key) {
+            md.push(addMethod(method));
+        });
+
+        return "<h4>Markdown</h4><pre><code>" +
+            md.filter(joinFilter).join("\n\n\n") +
+            "</code></pre>";
+    }
+
     function addTitle(title, str) {
         if (title.length > 0)
             return [title, new Array(title.length + 1).join(str)].join("\n");
@@ -143,8 +145,6 @@ app.service('MdService', function() {
     }
 
     return {
-        addTitle: addTitle,
-        addMethod: addMethod,
-        joinFilter: joinFilter
+        makeMD: makeMD
     }
 });
