@@ -14,29 +14,13 @@ app.directive('adForm', function(){
 app.directive('adResult', ['MdService', function(mdService){
     function link(scope, element){
         scope.$watch(function() {
-            var md = mdService.addTitle(scope.data.title, '=');
+            var md = [mdService.addTitle(scope.data.title, '=')];
 
             angular.forEach(scope.data.methods, function(method, key) {
-                md += mdService.addTitle(method.title, "-");
-                md += mdService.addKeyVal("URL", method.url);
-                md += mdService.addKeyVal("Type", method.type);
-
-                if (method.params.length > 0) {
-                    md += "**Parameters**\n\n";
-                }
-
-                angular.forEach(method.params, function(param, key) {
-                    md += mdService.addSubKeyVal(param.name, param.value, " - ");
-                });
-
-                if (method.params.length > 0) {
-                    md += "\n\n";
-                }
-
-                md += mdService.addBlock("Response", method.response);
+                md.push(mdService.addMethod(method));
             });
 
-            element.html("<h4>Markdown</h4><pre><code>" + md + "</code></pre>");
+            element.html("<h4>Markdown</h4><pre><code>" + md.join("\n\n\n") + "</code></pre>");
         });
     }
 
@@ -86,22 +70,40 @@ app.service('DataService', [function(){
     }
 }]);
 
-app.service('MdService', function(){
+app.service('MdService', function() {
     function addTitle(title, str) {
-        var ret = "";
+        return [title, new Array(title.length + 1).join(str)].join("\n");
+    }
 
-        if (title.length > 0) {
-            ret =  title + "\n" + new Array(title.length + 1).join(str) + "\n\n";
+    function addMethod(method) {
+        return [
+            addTitle(method.title, "-"),
+            addKeyVal("URL", method.url),
+            addKeyVal("Type", method.type),
+            addParams(method.params),
+            addBlock("Response", method.response)
+        ].join("\n\n");
+    }
+
+    function addParams(params) {
+        var md = [];
+
+        if (params.length > 0) {
+            md.push("**Parameters**");
         }
 
-        return ret;
+        angular.forEach(params, function(param, key) {
+            md.push(addSubKeyVal(param.name, param.value, " - "));
+        });
+
+        return md.join("\n");
     }
 
     function addKeyVal(key, val) {
         var ret = "";
 
         if (val.length > 0){
-            ret += "**" + key + ":** " + val + "\n\n";
+            ret += "**" + key + ":** " + val;
         }
 
         return ret;
@@ -111,13 +113,7 @@ app.service('MdService', function(){
         var ret = "";
 
         if (val) {
-            ret += "```\n";
-            angular.forEach(val.split("\n"), function (row, key) {
-                ret += "    " + row + "\n";
-            });
-            ret += "```\n";
-
-           ret = "**" + key + ":**\n" + ret;
+            ret = ["**" + key + ":**", "```", val, "```"].join("\n");
         }
 
         return ret;
@@ -127,7 +123,7 @@ app.service('MdService', function(){
         var ret = "";
 
         if (key.length > 0){
-            ret += " - " + key + ": " + val + "\n";
+            ret += " - " + key + ": " + val;
         }
 
         return ret;
@@ -135,8 +131,6 @@ app.service('MdService', function(){
 
     return {
         addTitle: addTitle,
-        addKeyVal: addKeyVal,
-        addSubKeyVal: addSubKeyVal,
-        addBlock: addBlock
+        addMethod: addMethod
     }
 });
