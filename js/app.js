@@ -20,7 +20,11 @@ app.directive('adResult', ['MdService', function(mdService){
                 md.push(mdService.addMethod(method));
             });
 
-            element.html("<h4>Markdown</h4><pre><code>" + md.join("\n\n\n") + "</code></pre>");
+            element.html(
+                "<h4>Markdown</h4><pre><code>" +
+                md.filter(mdService.joinFilter).join("\n\n\n") +
+                "</code></pre>"
+            );
         });
     }
 
@@ -72,17 +76,26 @@ app.service('DataService', [function(){
 
 app.service('MdService', function() {
     function addTitle(title, str) {
-        return [title, new Array(title.length + 1).join(str)].join("\n");
+        if (title.length > 0)
+            return [title, new Array(title.length + 1).join(str)].join("\n");
+
+        return "";
     }
 
     function addMethod(method) {
-        return [
-            addTitle(method.title, "-"),
-            addKeyVal("URL", method.url),
-            addKeyVal("Type", method.type),
-            addParams(method.params),
-            addBlock("Response", method.response)
-        ].join("\n\n");
+        return (
+            [
+                addTitle(method.title, "-"),
+                addKeyVal("URL", method.url),
+                addKeyVal("Type", method.type),
+                addParams(method.params),
+                addBlock("Response", method.response)
+            ].filter(joinFilter)
+        ).join("\n\n");
+    }
+
+    function joinFilter(item) {
+        return item.length > 0;
     }
 
     function addParams(params) {
@@ -131,6 +144,7 @@ app.service('MdService', function() {
 
     return {
         addTitle: addTitle,
-        addMethod: addMethod
+        addMethod: addMethod,
+        joinFilter: joinFilter
     }
 });
