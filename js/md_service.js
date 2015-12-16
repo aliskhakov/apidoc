@@ -6,9 +6,9 @@ app.service('MdService', function() {
             md.push(addMethod(method));
         });
 
-        return "<h4>Markdown</h4><pre><code>" +
+        return '<h4>Markdown</h4><pre class="md"><code>' +
             md.filter(joinFilter).join("\n\n\n") +
-            "</code></pre>";
+            '</code></pre>';
     }
 
     function addTitle(title, str) {
