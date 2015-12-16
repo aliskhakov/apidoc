@@ -1,4 +1,4 @@
-app.service('DataService', [function(){
+app.service('DataService', ['$location', function($location){
     var Api = function (){
         this.title = "";
 
@@ -45,6 +45,8 @@ app.service('DataService', [function(){
 
     function delApi(index){
         this.apis.splice(index, 1);
+
+        $location.path("/");
     }
 
     return {

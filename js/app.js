@@ -1,23 +1,42 @@
-var app = new angular.module('apidoc', ['ui.codemirror']);
+var app = new angular.module('apidoc', ['ui.codemirror', 'ngRoute']);
 
-app.controller('ApidocController', ['$scope', 'DataService', function ($scope, dataService){
+app.config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider.
+      when('/api', {
+        templateUrl: 'templates/api-list.html',
+        controller: 'ApiListController'
+      }).
+      when('/api/:apiId', {
+        templateUrl: 'templates/api-detail.html',
+        controller: 'ApiDetailController'
+      }).
+      otherwise({
+        redirectTo: '/api'
+      });
+  }]);
+
+app.controller('ApiListController', ['$scope', 'DataService', function ($scope, dataService){
     $scope.data = dataService;
-
-    $scope.editorOptions = {
-        lineNumbers: false,
-        matchBrackets: true,
-        autoCloseBrackets: true,
-        mode: "application/ld+json",
-        lineWrapping: true
-    };
 }]);
 
-app.directive('adApis', function(){
-    return {
-        restrict: 'E',
-        templateUrl: 'templates/apis.html'
-    };
-});
+app.controller('ApiDetailController', ['$scope', '$routeParams', 'DataService',
+    function ($scope, $routeParams, dataService){
+        $scope.data = dataService;
+
+        $scope.apiId = $routeParams.apiId;
+
+        $scope.api = $scope.data.apis[$scope.apiId];
+
+        $scope.editorOptions = {
+            lineNumbers: false,
+            matchBrackets: true,
+            autoCloseBrackets: true,
+            mode: "application/ld+json",
+            lineWrapping: true
+        };
+    }
+]);
 
 app.directive('adForm', function(){
     return {

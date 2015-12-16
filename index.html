@@ -11,23 +11,23 @@
     <header class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">APIDoc</a>
+                <a class="navbar-brand" href="#/">APIDoc</a>
             </div>
         </div>
     </header>
-    <div ng-controller="ApidocController">
-        <ad-apis></ad-apis>
-    </div>
+    <div ng-view></div>
     <footer>
         <div class="row">
             <div class="container">
                 <div class="col-lg-6">
-                    Made by <a href="https://twitter.com/aliskhakov">Albert Iskhakov</a> using <a href="https://angularjs.org">Angular</a>
+                    Made by <a href="https://twitter.com/aliskhakov">Albert Iskhakov</a>
+                    using <a href="https://angularjs.org">Angular</a>
                 </div>
             </div>
         </div>
     </footer>
     <script type="text/javascript" src="js/lib/angular.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-route.js"></script>
     <script type="text/javascript" src="js/lib/codemirror.js"></script>
     <script type="text/javascript" src="js/lib/codemirror-js-mode.js"></script>
     <script type="text/javascript" src="js/lib/ui-codemirror.js"></script>
