@@ -22,6 +22,7 @@ app.service('MdService', function() {
         return (
             [
                 addTitle(method.title, "-"),
+                addBlock("Description", method.description),
                 addKeyVal("URL", method.url),
                 addKeyVal("Type", method.type),
                 addParams(method.params),
