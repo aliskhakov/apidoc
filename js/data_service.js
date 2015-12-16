@@ -1,39 +1,57 @@
-app.service('DataService', [function(){
-    function method(){
-        return {
-            "title": "",
-            "url": "",
-            "type": "",
-            "params": [],
-            "response": ""
+app.service('DataService', ['$location', function($location){
+    var Api = function (){
+        this.title = "";
+
+        this.methods = [new Method()];
+
+        this.addMethod = function (){
+            this.methods.push(new Method())
         };
+
+        this.delMethod = function (index){
+            this.methods.splice(index, 1);
+        };
+    };
+
+    var Method = function (){
+        this.title = "";
+
+        this.url = "";
+
+        this.type = "";
+
+        this.params = [];
+
+        this.response = "";
+
+        this.addParam = function (){
+            this.params.push(new Param());
+        };
+
+        this.delParam = function (index){
+            this.params.splice(index, 1);
+        };
+    };
+
+    var Param = function (){
+        this.name = "";
+
+        this.value = "";
+    };
+
+    function addApi(){
+        this.apis.push(new Api());
     }
 
-    function addMethod(){
-        this.methods.push(method());
-    }
+    function delApi(index){
+        this.apis.splice(index, 1);
 
-    function delMethod(index) {
-        this.methods.splice(index, 1);
-    }
-
-    function addParam(index) {
-        this.methods[index].params.push({
-            "name": "",
-            "value": ""
-        });
-    }
-
-    function delParam(parent_index, index){
-        this.methods[parent_index].params.splice(index, 1);
+        $location.path("/");
     }
 
     return {
-        title: "",
-        methods: [method()],
-        addMethod: addMethod,
-        delMethod: delMethod,
-        addParam: addParam,
-        delParam: delParam
+        apis: [new Api()],
+        addApi: addApi,
+        delApi: delApi
     }
 }]);

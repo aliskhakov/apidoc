@@ -49,14 +49,14 @@
                             </td>
                             <td style="vertical-align: middle;">
                                 <button type="button" class="btn btn-danger btn-xs"
-                                        ng-click="data.delParam($parent.$index, $index)">
+                                        ng-click="method.delParam($index)">
                                     <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Remove
                                 </button>
                             </td>
                         </tr>
                         </tbody>
                     </table>
-                    <button type="button" class="btn btn-success btn-xs" ng-click="data.addParam($index)">
+                    <button type="button" class="btn btn-success btn-xs" ng-click="method.addParam()">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
                     </button>
                 </div>

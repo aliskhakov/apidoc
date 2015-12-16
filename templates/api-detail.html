@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9">
+            <h2>
+                {{ api.title ? api.title : "Untitled API" }}
+                <button type="button" class="btn btn-danger btn-xs" ng-click="data.delApi(apiId)">
+                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Remove
+                </button>
+            </h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <ad-form data="api"></ad-form>
+        </div>
+        <div class="col-lg-6">
+            <ad-result data="api"></ad-result>
+        </div>
+    </div>
+</div>
