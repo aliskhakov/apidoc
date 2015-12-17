@@ -1,57 +1,69 @@
-app.service('DataService', ['$location', function($location){
-    var Api = function (){
-        this.title = "";
+app.service(
+    'DataService',
+    [
+        '$location',
+        '$rootScope',
+        'localStorageService',
+        function($location, $rootScope, localStorageService){
+            var Api = function (){
+                this.title = "";
 
-        this.methods = [new Method()];
+                this.methods = [new Method()];
 
-        this.addMethod = function (){
-            this.methods.push(new Method())
-        };
+                this.addMethod = function (){
+                    this.methods.push(new Method())
+                };
 
-        this.delMethod = function (index){
-            this.methods.splice(index, 1);
-        };
-    };
+                this.delMethod = function (index){
+                    this.methods.splice(index, 1);
+                };
+            };
 
-    var Method = function (){
-        this.title = "";
+            var Method = function (){
+                this.title = "";
 
-        this.url = "";
+                this.url = "";
 
-        this.type = "";
+                this.type = "";
 
-        this.params = [];
+                this.params = [];
 
-        this.response = "";
+                this.response = "";
 
-        this.addParam = function (){
-            this.params.push(new Param());
-        };
+                this.addParam = function (){
+                    this.params.push(new Param());
+                };
 
-        this.delParam = function (index){
-            this.params.splice(index, 1);
-        };
-    };
+                this.delParam = function (index){
+                    this.params.splice(index, 1);
+                };
+            };
 
-    var Param = function (){
-        this.name = "";
+            var Param = function (){
+                this.name = "";
 
-        this.value = "";
-    };
+                this.value = "";
+            };
 
-    function addApi(){
-        this.apis.push(new Api());
-    }
+            return {
+                apis: (function (){
+                    var apis = [];
 
-    function delApi(index){
-        this.apis.splice(index, 1);
+                    localStorageService.bind($rootScope, 'apis', apis);
 
-        $location.path("/");
-    }
+                    return apis;
+                })(),
 
-    return {
-        apis: [new Api()],
-        addApi: addApi,
-        delApi: delApi
-    }
-}]);
+                addApi: function(){
+                    this.apis.push(new Api());
+                },
+
+                delApi: function(){
+                    this.apis.splice(index, 1);
+
+                    $location.path("/");
+                }
+            };
+        }
+    ]
+);

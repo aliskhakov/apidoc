@@ -1,20 +1,25 @@
-var app = new angular.module('apidoc', ['ui.codemirror', 'ngRoute']);
+var app = new angular.module('apidoc', ['ui.codemirror', 'ngRoute', 'LocalStorageModule']);
 
-app.config(['$routeProvider',
-  function($routeProvider) {
-    $routeProvider.
-      when('/api', {
-        templateUrl: 'templates/api-list.html',
-        controller: 'ApiListController'
-      }).
-      when('/api/:apiId', {
-        templateUrl: 'templates/api-detail.html',
-        controller: 'ApiDetailController'
-      }).
-      otherwise({
-        redirectTo: '/api'
-      });
-  }]);
+app.config(['$routeProvider', 'localStorageServiceProvider',
+    function($routeProvider, localStorageServiceProvider) {
+        $routeProvider.
+            when('/api', {
+            templateUrl: 'templates/api-list.html',
+            controller: 'ApiListController'
+            }).
+            when('/api/:apiId', {
+                templateUrl: 'templates/api-detail.html',
+                controller: 'ApiDetailController'
+            }).
+            otherwise({
+                redirectTo: '/api'
+            });
+
+        localStorageServiceProvider.setPrefix('apidoc');
+        localStorageServiceProvider.setStorageType('localStorage');
+        localStorageServiceProvider.setNotify(false, false);
+    }
+]);
 
 app.controller('ApiListController', ['$scope', 'DataService', function ($scope, dataService){
     $scope.data = dataService;
