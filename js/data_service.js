@@ -58,7 +58,7 @@ app.service(
                     this.apis.push(new Api());
                 },
 
-                delApi: function(){
+                delApi: function(index){
                     this.apis.splice(index, 1);
 
                     $location.path("/");
